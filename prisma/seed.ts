@@ -29,7 +29,7 @@ const taskData=[
 {code:"TK-100107",title:"Storyboard cleanup",description:"Clean rough panels for internal review.",projectId:"p-001",requiredSkill:"2D Animation",status:"QA" as const,priority:"HIGH" as const,dueDate:new Date(Date.now()-86400000),estimatedHours:5,assigneeId:"u-talent",creatorId:"u-manager"}
 ];
 for(const t of taskData)await db.task.upsert({where:{code:t.code},update:{},create:t});
-for(const p of projects){await db.milestone.upsert({where:{id:`m-${p.id}-1`},update:{},create:{id:`m-${p.id}-1`,title:"Creative brief approved",projectId:p.id,completed:p.status!=="DRAFT"}});}
+for(const p of projects){await db.milestone.upsert({where:{id:`m-${p.id}-1`},update:{},create:{id:`m-${p.id}-1`,title:"Creative brief approved",projectId:p.id,completed: p.status !== "PLANNING"}});}
 for(const u of users){const user=await db.user.findUnique({where:{email:u.email}});if(user)await db.notification.upsert({where:{id:`n-${user.id}-welcome`},update:{},create:{id:`n-${user.id}-welcome`,userId:user.id,title:"Welcome to Creative Ops",body:"Your workspace is ready. Review assigned work and upcoming deadlines.",href:"/dashboard"}});}
 await db.invoice.upsert({where:{reference:"INV-DEMO-001"},update:{},create:{reference:"INV-DEMO-001",projectId:"p-001",clientName:"Northstar Media",currency:"USD",total:8200,paid:4100,status:"PARTIALLY_PAID",dueDate:new Date(Date.now()+14*86400000)}});
 console.log("Seed complete. Demo users created/updated.");}
