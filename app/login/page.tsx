@@ -1,0 +1,4 @@
+import { redirect } from "next/navigation";
+import { currentUser } from "@/lib/auth";
+import LoginForm from "./login-form";
+export default async function LoginPage(){ if(await currentUser()) redirect("/dashboard"); return <main className="login-screen"><section className="login-hero"><div className="brand"><span className="brand-mark">C</span> CREATIVE OPS</div><div className="eyebrow" style={{color:"#aaa3ff"}}>MANAGED CREATIVE PRODUCTION</div><h1>Make great work.<br/>Deliver it with confidence.</h1><p>One connected workspace for production planning, creative talent, quality control, and client delivery.</p><div style={{display:"flex",gap:22,marginTop:30,color:"#d2dbea",fontSize:12}}><span>● Production control</span><span>● Quality assurance</span><span>● Clear delivery</span></div></section><section className="login-form-wrap"><LoginForm/></section></main>; }

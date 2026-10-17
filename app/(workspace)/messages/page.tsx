@@ -1,0 +1,1 @@
+import PageClient from "@/components/page-client";import { redirect } from "next/navigation";import { currentUser } from "@/lib/auth";export default async function Page(){const user=await currentUser();if(!user)redirect("/login");return <PageClient page="messages" user={{id:user!.id,name:user!.name,role:user!.role,organizationId:user!.organizationId}}/>;}
