@@ -9,7 +9,12 @@ const users=[
 {id:"u-talent2",name:"Omar Samir",email:"artist2@creativeops.local",role:"TALENT" as const,password:"DemoTalent!2026"},
 {id:"u-client2",name:"Sam Taylor",email:"client2@creativeops.local",role:"CLIENT" as const,password:"DemoClient!2026",organizationId:org2.id}
 ];
-for(const u of users){await db.user.upsert({where:{email:u.email},update:{name:u.name,role:u.role,active:true},create:{id:u.id,name:u.name,email:u.email,role:u.role,passwordHash:await pw(u.password),organizationId:"organizationId" in u?u.organizationId:null}});}
+for(const u of users){await db.user.upsert({where:{email:u.email},update: {
+  name: u.name,
+  role: u.role,
+  active: true,
+  passwordHash: await pw(u.password),
+},create:{id:u.id,name:u.name,email:u.email,role:u.role,passwordHash:await pw(u.password),organizationId:"organizationId" in u?u.organizationId:null}});}
 for(const t of [{userId:"u-talent",skills:"2D Animation, Anime Style, In-between",specialization:"2D Animation",availability:"AVAILABLE",yearsExperience:4,qualityScore:92,reliabilityScore:95},{userId:"u-talent2",skills:"Illustration, Background Art, Digital Painting",specialization:"Illustration",availability:"LIMITED",yearsExperience:6,qualityScore:88,reliabilityScore:90}])await db.talentProfile.upsert({where:{userId:t.userId},update:t,create:t});
 const projects=[
 {id:"p-001",code:"CP-240101",title:"Starlight Opening Sequence",type:"2D Animation",brief:"Create a 45-second anime-inspired opening sequence with a bold color script, character motion, and final compositing.",status:"IN_PRODUCTION" as const,priority:"HIGH" as const,organizationId:org1.id,managerId:"u-manager",deadline:new Date(Date.now()+8*86400000),clientPrice:8200,internalCost:5100},
